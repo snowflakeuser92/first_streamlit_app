@@ -33,9 +33,11 @@ def get_fruityvice_data(this_fruit_choice):
   fruityvice_response = requests.get("https://fruityvice.com/api/fruit/" + fruit_choice)
   fruityvice_normalized = pd.json_normalize(fruityvice_response.json())
   return fruityvice_normalized
-  
+# function 2
+
+ 
 try:
-  fruit_choice = streamlit.text_input('What fruit would you like info about?', 'Kiwi')
+  fruit_choice = streamlit.text_input('What fruit would you like info about?')
   if not fruit_choice:
     streamlit.error("Please select a fruit to get info.")
   else:
@@ -45,8 +47,20 @@ try:
 except URLError as e:
   streamlit.error()
   
-streamlit.stop()
-my_cnx = snowflake.connector.connect(**streamlit.secrets["snowflake"])
+
+
+# function 2
+def get_fruit_load_list()
+  with my_cnx.cursor() as my_cur:
+    my_cur.execute("select * from fruit_load_list")
+    return my_cur.fetchall()
+# add button to load fruit
+if streamlit.button('Get Fruit Load List'):
+  my_cnx = snowflake.connector.connect(**streamlit.secrets["snowflake"])
+  my_data_rows = get_fruit_load_list()
+  streamlit.dataframe(my_data_rows)
+
+streamlit.stop()  
 my_cur = my_cnx.cursor()
 my_cur.execute("INSERT INTO fruit_load_list(fruit_name) VALUES ('test')")
 my_cur.execute("SELECT * FROM fruit_load_list")
